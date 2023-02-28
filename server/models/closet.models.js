@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PictureSchema = new mongoose.Schema({
+const ClosetSchema = new mongoose.Schema({
     photo_url:{ 
         type:String, 
         unique:true, 
@@ -12,19 +12,18 @@ const PictureSchema = new mongoose.Schema({
         unique:true, 
         required:true 
     },
-    country: {
-        type:String, 
-        required: true
-    },
-    title: {
+    category: {
         type:String,
     },
-    description: {
+    color: {
         type:String,
     },
-    userId: {type:Schema.Types.ObjectId, ref:"users", required:true}
+    season: {
+        type:String,
+    },
+    userId: {type:Schema.Types.ObjectId, ref:"users", required:true}, 
 },
 {strictQuery: false}
 )
 
-module.exports = mongoose.model('pictures', PictureSchema);
+module.exports = mongoose.model('closet', ClosetSchema);

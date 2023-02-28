@@ -8,7 +8,7 @@ import * as React from 'react';
 // import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, Text, StyleSheet } from 'react-native';
 
-import Navigation from './src/navigation';
+import Navigation from './src/navigation/';
 
 // If you're on a Mac and developing for iOS, you need to install the pods (via Cocoapods) to complete the linking:
 // npx pod-install ios

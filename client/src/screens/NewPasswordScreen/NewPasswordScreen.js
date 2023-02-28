@@ -1,17 +1,12 @@
-import { View, Text, StyleSheet, SafeAreaView, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, useWindowDimensions, ScrollView, TextInput, Button } from 'react-native';
 import React, { useState } from 'react';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
-import {useForm} from 'react-hook-form';
 
 
 const NewPasswordScreen = () => {
- const {control, handleSubmit} = useForm();
   const navigation = useNavigation();
 
-  const onSubmitPressed = (data) => {
+  const onSubmitPressed = () => {
     console.warn(data);
     navigation.navigate('Home');
   };
@@ -23,28 +18,27 @@ const NewPasswordScreen = () => {
     <ScrollView>
       <SafeAreaView style={styles.root}>
         <Text style={styles.title}>Reset your password</Text>
-        <CustomInput
+        <TextInput
           placeholder="Code"
-          name="code"
-          constrol={control}
-          rules={{required: 'Code is required'}}
+          
+          // rules={{required: 'Code is required'}}
         />
-         <CustomInput
+         <TextInput
           placeholder="Enter your new password"
-          name="password"
-          constrol={control}
-          rules={{
-            required: 'Password is required',
-            minLength: {
-              value: 6,
-              message: 'Password should be at least 6 characters long'
-            },
-          }}        />
-        <CustomButton
+       
+          // rules={{
+          //   required: 'Password is required',
+          //   minLength: {
+          //     value: 6,
+          //     message: 'Password should be at least 6 characters long'
+          //   },
+          // }}        
+          />
+        <Button
           text="Submit"
-          onPress={handleSubmit(onSubmitPressed)}
+          onPress={onSubmitPressed}
         />
-        <CustomButton
+        <Button
           text="Back to Sign in"
           onPress={onSignInPressed}
           type="TERTIARY"

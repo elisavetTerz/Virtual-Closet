@@ -1,21 +1,44 @@
-import { View, Text, StyleSheet, SafeAreaView, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TextInput, Button } from 'react-native';
 import React, { useState } from 'react';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
-import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { URL } from '../../../config';
 
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+// const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
 const SignUpScreen = () => {
-  const {control, handleSubmit, watch} = useForm();
-  const pwd = watch('password');
-  const navigation = useNavigation();
+ 
+  const [form, setValues] = useState({
+    username: '',
+    email: '',
+    password: '',
+    password2: '',
+  });
 
-  const onRegisterPressed = () => {
-    navigation.navigate('ConfirmEmail');
+  const [message, setMessage] = useState('');
+  const navigation = useNavigation();
+  // const pwd = watch('password');
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(`${URL}/users/register`, {
+        username: form.username,
+        email: form.email,
+        password: form.password,
+        password2: form.password2
+      });
+      setMessage(response.data.message);
+      console.log(response);
+      if (response.data.ok) {
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const onSignInPressed = () => {
     navigation.navigate('SignIn');
   };
@@ -31,55 +54,54 @@ const SignUpScreen = () => {
     <ScrollView>
       <SafeAreaView style={styles.root}>
         <Text styles={styles.title}>Create an acoount</Text>
-        <CustomInput
-          name="username"
-          control={control}
+        <TextInput
+          style={styles.input}
+          onChangeText={(text)=>setValues({...form, email:text})}
           placeholder="Username"
-          rules={{
-            required: 'Username is required',
-            minLength: {
-              value: 3,
-              message: 'Username should be at least 3 characters long'
-            },
-            maxLength: {
-              value: 24,
-              message: 'Username should be at max 24 characters long'
-            },
-          }}
+        // rules={{
+        //   required: 'Username is required',
+        //   minLength: {
+        //     value: 3,
+        //     message: 'Username should be at least 3 characters long'
+        //   },
+        //   maxLength: {
+        //     value: 24,
+        //     message: 'Username should be at max 24 characters long'
+        //   },
+        // }}
         />
-        <CustomInput
-          name="email"
-          control={control}
+        <TextInput
+          style={styles.input}
+          onChangeText={(text)=>setValues({...form, username:text})}          
           placeholder="Email"
-          rules={{ pattern: { value: EMAIL_REGEX, message: 'Email is invalid' } }}
+        // rules={{ pattern: { value: EMAIL_REGEX, message: 'Email is invalid' } }}
         />
-        <CustomInput
-          name="password"
-          control={control}
+        <TextInput
+          style={styles.input}
+          onChange={handleChange}
+          onChangeText={(text)=>setValues({...form, password:text})}          
           placeholder="Password"
-          // secureTextEntry
-          rules={{
-            required: 'Password is required',
-            minLength: {
-              value: 6,
-              message: 'Password should be at least 6 characters long'
-            },
-          }}
+        // rules={{
+        //   required: 'Password is required',
+        //   minLength: {
+        //     value: 6,
+        //     message: 'Password should be at least 6 characters long'
+        //   },
+        // }}
         />
-        <CustomInput
-          name="password-repeat"
-          control={control}
+        <TextInput
+          style={styles.input}
+          onChangeText={(text)=>setValues({...form, password2:text})}          
           placeholder="Repeat Password"
-          // secureTextEntry
-          rules={{
-            validate: value =>
-              value === pwd || 'Password do not match',
-          }}
+          // rules={{
+          //   validate: value =>
+          //     value === pwd || 'Password do not match',
+          // }}
         />
 
-        <CustomButton
+        <Button
           text="Register"
-          onPress={handleSubmit(onRegisterPressed)}
+          onPress={handleSubmit}
           type="PRIMARY" />
         <Text style={styles.text}>
           By registering you confirm that you accept our{' '}
@@ -88,7 +110,7 @@ const SignUpScreen = () => {
         </Text>
         <SocialSignInButtons />
 
-        <CustomButton
+        <Button
           text="Have an account? Sign in"
           onPress={onSignInPressed}
           type="TERTIARY"
@@ -110,6 +132,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#051C60',
     margin: 10,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
   text: {
     color: 'gray',

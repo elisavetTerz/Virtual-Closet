@@ -1,4 +1,4 @@
-const Closet = require("../models/closet.models");
+const Look = require("../models/look.models");
 const cloudinary = require("cloudinary");
 const Users = require('../models/users.models')
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -46,7 +46,7 @@ const remove = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    const { id, category, color, season } = req.body;
+    const { id } = req.body;
     try {
         const updated = await Pictures.findOneAndUpdate({ public_id: id }, {
             category: category,
@@ -60,8 +60,8 @@ const update = async (req, res) => {
     }
 };
 
-const get_all_by_season = async (req, res) => {
-    const { season, user } = req.params
+const get_look = async (req, res) => {
+    const { _id, user } = req.params
     console.log(user);
     try {
         const userFound = await Users.findOne({ username: user })
@@ -72,4 +72,4 @@ const get_all_by_season = async (req, res) => {
     }
 };
 
-module.exports = { upload,remove, update, get_all_by_season };
+module.exports = { upload,remove, update, get_look };

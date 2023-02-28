@@ -1,6 +1,5 @@
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import React from 'react';
-import CustomButton from '../CustomButton';
 
 const SocialSignInButtons = () => {
     const onSignInFacebook = () => {
@@ -11,13 +10,13 @@ const SocialSignInButtons = () => {
       };
     return (
         <>
-            <CustomButton
+            <Button
                 text="Sign In with Facebook"
                 onPress={onSignInFacebook}
                 bgColor="#E7EAF4"
                 fgColor="#4765A9"
             />
-            <CustomButton
+            <Button
                 text="Sign In with Google"
                 onPress={onSignInGoogle}
                 bgColor="#FAE9EA"
