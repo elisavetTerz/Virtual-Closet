@@ -7,50 +7,39 @@ const NewPasswordScreen = () => {
   const navigation = useNavigation();
 
   const onSubmitPressed = () => {
-    console.warn(data);
+    console.warn("SUBMIT");
     navigation.navigate('Home');
   };
   const onSignInPressed = () => {
+    console.warn("SIGNIN");
     navigation.navigate('SignIn');
   };
 
   return (
     <ScrollView>
-      <SafeAreaView style={styles.root}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Reset your password</Text>
         <TextInput
           placeholder="Code"
-          
-          // rules={{required: 'Code is required'}}
         />
-         <TextInput
+        <TextInput
           placeholder="Enter your new password"
-       
-          // rules={{
-          //   required: 'Password is required',
-          //   minLength: {
-          //     value: 6,
-          //     message: 'Password should be at least 6 characters long'
-          //   },
-          // }}        
-          />
+        />
         <Button
-          text="Submit"
+          title="Submit"
           onPress={onSubmitPressed}
         />
         <Button
-          text="Back to Sign in"
+          title="Back to Sign in"
           onPress={onSignInPressed}
-          type="TERTIARY"
         />
-
       </SafeAreaView>
     </ScrollView>
   )
 };
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
     alignItems: 'center',
     padding: 50,

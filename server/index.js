@@ -8,32 +8,31 @@ app.use(express.json());
 //CORS
 const cors = require("cors");
 app.use(cors());
-const path = require('path')
+const path = require("path");
 
 //Database Connection
 const mongoose = require("mongoose");
 // to print incoming requests from mongoose in the terminal
-mongoose.set('debug', true);
+mongoose.set("debug", true);
 async function connecting() {
-    try {
-        await mongoose.connect(process.env.MONGO);
-        console.log("Connected to the DB");
-    } catch (error) {
-        console.log("ERROR: DB is not running! Start it up!");
-    };
+  try {
+    await mongoose.connect(process.env.MONGO);
+    console.log("Connected to the DB");
+  } catch (error) {
+    console.log("ERROR: DB is not running! Start it up!");
+  }
 }
 
 connecting();
 
 //ROUTES
-app.use("/closet", require("./routes/closet.routes"))
+// app.use("/closet", require("./routes/closet.routes"))
 app.use("/users", require("./routes/users.routes"));
 
-
 app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, '../client/build')));
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+app.use(express.static(path.join(__dirname, "../client/build")));
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
 //START SERVER
